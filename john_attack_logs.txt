@@ -1,0 +1,1 @@
+Loaded 157 password hashes with 106 different salts (descrypt, traditional crypt(3) [DES 64/64])

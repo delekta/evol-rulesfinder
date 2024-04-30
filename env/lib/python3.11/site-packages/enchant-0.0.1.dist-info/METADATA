@@ -1,0 +1,29 @@
+Metadata-Version: 2.1
+Name: enchant
+Version: 0.0.1
+Summary: Easier integration with Enchant.com
+Project-URL: Homepage, https://github.com/enchant/enchant-python
+Author-email: Vinay Sahni <vinay@enchant.com>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+
+# Enchant
+
+This package makes it easier to integrate with Enchant.com
+
+## Usage
+
+To generate Enchant Messenger embed codes:
+
+```python
+from enchant import messenger
+messenger.embed_code("abc")
+```
+
+## Planned
+
+* API helpers to simplify using Enchant's REST API

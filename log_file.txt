@@ -1,0 +1,4 @@
+Loaded 4 password hashes with 3 different salts (descrypt, traditional crypt(3) [DES 64/64])
+Press 'q' or Ctrl-C to abort, almost any other key for status
+0g 0:00:00:00 100% 0g/s 32700p/s 98100c/s 130800C/s Johndoed..Johndoin
+Session completed
