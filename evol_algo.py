@@ -22,8 +22,7 @@ def crossover(parent1, parent2):
     return child
 
 """
-Mutation ideas:
-- replacing methods with other popular, dictionary of popular methods 
+Replacing rules with other popular rules
 """
 def mutation(individual, mutation_rate):
     for i in range(len(individual)):
@@ -45,7 +44,7 @@ def evolutionary_algorithm(population, population_size, individual_length, num_g
             child = crossover(parent1, parent2)
             child = mutation(child, mutation_rate)
             new_population.append(child.tolist())
-
+    
     # best_idx = np.argmax([fitness_function(individual) for individual in population])
     # return population[best_idx]
     return new_population

@@ -2,7 +2,7 @@ import subprocess
 
 
 RESULTS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_attack_logs.txt'
-RULES_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/results/10k-most-common-google-words.txt|7-more-passwords.txt.txt'
+RULES_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/evol_algo_result.txt'
 WORDLIST_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/wordlist/rockyou.txt'
 PASSWORDS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/cleartext/8-more-passwords.txt'
 
@@ -27,6 +27,8 @@ ps.wait()
 - --hashcat        Only use rules that work in Hashcat for rulesfinder 
 - rulesfinder -h -> interesting
 - check rules only if it has required number of digits, capital letters, number of signs?
+- John the Ripper jumbo - https://github.com/openwall/john
+- [future improvement] crossover not random, direct to the long or short passwords
  
 
 """

@@ -1,0 +1,23 @@
+Steps of my work:
+- 1. run rulesfinder.py with --hashcat
+- 2. you get file of rules in results directory 
+- 3. then we have main.py we run our evolutionary algo, to mangle our rules
+- 4. then we get evol_algo_result.txt
+- 5. then we can go with hashcat_attack.py
+- 6. then we john_attack.py
+
+Can we find the input and outputs of whole flow?
+
+Lets automate it 
+
+If you make something interesting, the 4. chapter will be easy. Note future improvements
+
+Check if all of it works and push it. 
+
+Always first hour of the day.
+
+First results:
+
+11 June 2024 - 2049/61682 (3.32%) vs after rulesfinder (30.40%)
+
+Opis proces. Ze no są gorsze wyniki niz z rulesfindera ale zaczales bardzo slabo i pozniej poprawiales i ma to sens na przyszlosc.
