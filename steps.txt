@@ -21,3 +21,5 @@ First results:
 11 June 2024 - 2049/61682 (3.32%) vs after rulesfinder (30.40%)
 
 Opis proces. Ze no są gorsze wyniki niz z rulesfindera ale zaczales bardzo slabo i pozniej poprawiales i ma to sens na przyszlosc.
+
+Następny ticket jest zeby zaautmatyzować do jednej komendy sprawdzającej. Która wykona parę komend tych wszystkich co trzeba. 
