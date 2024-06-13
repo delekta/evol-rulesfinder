@@ -20,6 +20,10 @@ First results:
 
 11 June 2024 - 2049/61682 (3.32%) vs after rulesfinder (30.40%)
 
-Opis proces. Ze no są gorsze wyniki niz z rulesfindera ale zaczales bardzo slabo i pozniej poprawiales i ma to sens na przyszlosc.
+Pomysły na opisy:
+- Opisz proces. Ze no są gorsze wyniki niz z rulesfindera ale zaczales bardzo slabo i pozniej poprawiales i ma to sens na przyszlosc.
+- Proces jak zapisuje wszystko w poszczególnych ze cos w ./hashcat_log.txt itp
+- Czy powinienem porównywać z tymi samymi cleartext i wordlist co podaje do rulesfindera
 
 Następny ticket jest zeby zaautmatyzować do jednej komendy sprawdzającej. Która wykona parę komend tych wszystkich co trzeba. 
+

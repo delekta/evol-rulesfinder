@@ -3,25 +3,18 @@ from evol_algo import evolutionary_algorithm
 import subprocess
 import os
 
+WORDLIST_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/wordlist/'
+CLEARTEXT_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/cleartext/'
+EVOL_RULES_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/evol_algo_result.txt'
+HASHCAT_LOGS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_attack_logs.txt'
 
-def extract_rules_with_rulesfinder():
-    def is_hidden(file):
-        return file.startswith('.')
 
-    def get_files(directory):
-        return [file for file in os.listdir(directory) if not is_hidden(file)]
+def extract_rules_with_rulesfinder(wordlist, cleartext):
+    wordlist_path = WORDLIST_DIR + wordlist
+    cleartext_path = CLEARTEXT_DIR + cleartext
+    result_filename = wordlist + '|' + cleartext
 
-    WORDLIST_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/wordlist/'
-    CLEARTEXT_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/cleartext/'
     RESULTS_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/results/'
-
-    wordlist_filenames = get_files(WORDLIST_DIR)
-    cleartext_filenames = get_files(CLEARTEXT_DIR)
-    index = 0
-    result_filename = wordlist_filenames[index] + '|' + cleartext_filenames[index] + '.txt'
-
-    wordlist_path = WORDLIST_DIR + wordlist_filenames[index]
-    cleartext_path = CLEARTEXT_DIR + cleartext_filenames[index]
     result_path = RESULTS_DIR + result_filename
 
 
@@ -30,58 +23,44 @@ def extract_rules_with_rulesfinder():
                                     "-n", "50", "-t", "7", "--minsize", "3"), stdout=subprocess.PIPE)
     output = subprocess.check_output(("tee", result_path), stdin=ps.stdout)
     ps.wait()
+    return result_path
 
-def hashcat_attack():
-    RESULTS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_attack_logs.txt'
-    RULES_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/evol_algo_result.txt'
-    WORDLIST_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/wordlist/rockyou.txt'
-    PASSWORDS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/cleartext/7-more-passwords.txt'
+def hashcat_attack(wordlist, cleartext):
+    wordlist_path = WORDLIST_DIR + wordlist
+    cleartext_path = CLEARTEXT_DIR + cleartext
 
-    ps = subprocess.Popen(("hashcat", "-m", "99999", PASSWORDS_PATH, WORDLIST_PATH, '-r', RULES_PATH, '--debug-mode=4', '--debug-file=matched.rule'), stdout=subprocess.PIPE)
-    output = subprocess.check_output(("tee", RESULTS_PATH), stdin=ps.stdout)
+    ps = subprocess.Popen(("hashcat", "-m", "99999", cleartext_path, wordlist_path, '-r', EVOL_RULES_PATH, '--debug-mode=4', '--debug-file=matched.rule'), stdout=subprocess.PIPE)
+    output = subprocess.check_output(("tee", HASHCAT_LOGS_PATH), stdin=ps.stdout)
     ps.wait()
 
 if __name__ == "__main__":
-# 1. run rulesfinder.py with --hashcat
-    extract_rules_with_rulesfinder()
+    wordlist = '10k-most-common-google-words.txt'
+    cleartext = '7-more-passwords.txt'
+    rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
 
-# 2. you get file of rules in results directory 
-# 3. then we have main.py we run our evolutionary algo, to mangle our rules
-# 4. then we get evol_algo_result.txt
-    folderPath = '/Users/kamil.delekta/Erasmus/Magisterka/Project/results/'
-    filePath = '10k-most-common-google-words.txt|7-more-passwords.txt.txt'
-    rulesPath = folderPath + filePath
-
-    with open(rulesPath, 'r') as file:
+    with open(rulesfinder_result_path, 'r') as file:
         rules = [line.strip() for line in file.readlines()[1:-1]]   
 
     rules_formatted = format_rules(rules)
 
-    # Parameters
+    # Evolutionary Algorithm Parameters
     pop_size = 100
     individual_length = 10
     num_generations = 100
     mutation_rate = 0.01
     tournament_size = 5
 
-    # Run the evolutionary algorithm
-    # print("Before:", rules_formatted)
-    best_individual = evolutionary_algorithm(rules_formatted, pop_size, individual_length, num_generations, mutation_rate, tournament_size)
-    print("After:", best_individual)
+    evol_rules = evolutionary_algorithm(rules_formatted, pop_size, individual_length, num_generations, mutation_rate, tournament_size)
 
-    # TODO save best_individual to the file
-    with open('./evol_algo_result.txt', 'w') as f:
-        for item in best_individual:
-            # concatenate all the strings in an array
+    with open(EVOL_RULES_PATH, 'w') as f:
+        for item in evol_rules:
             rule = ''.join(item)
-            # Write each item on a new line
             f.write("%s\n" % rule)
     
-# 5. then we can go with hashcat_attack.py
-hashcat_attack()
+    hashcat_attack(wordlist=wordlist, cleartext=cleartext)
 
-# 6. then we john_attack.py
-# TBD 
+    # TODO EXTRACT the result from the hashcat_log file and print it, save to the file
+    # TODO john_attack.py
 
 
    

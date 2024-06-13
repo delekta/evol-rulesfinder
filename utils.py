@@ -88,7 +88,7 @@ def get_sum_of_rule(rule, popularity):
     result = 0
     for sign in rule:
         result += popularity[sign[0]]
-    print(rule, result) 
+    # print(rule, result) 
     return result
 
 # TODO Enable this function so it works for all signs
