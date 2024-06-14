@@ -60,6 +60,7 @@ if __name__ == "__main__":
     hashcat_attack(wordlist=wordlist, cleartext=cleartext)
 
     # TODO EXTRACT the result from the hashcat_log file and print it, save to the file
+    # tamplate to save [TAG] wordlist, cleartext, Recovered, Recovered Before Mangling 
     # TODO john_attack.py
 
 
