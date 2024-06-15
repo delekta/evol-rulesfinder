@@ -2,6 +2,7 @@ from utils import format_rules, get_rules_popularity
 from evol_algo import evolutionary_algorithm
 import subprocess
 import os
+from datetime import datetime
 
 WORDLIST_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/wordlist/'
 CLEARTEXT_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/cleartext/'
@@ -33,6 +34,29 @@ def hashcat_attack(wordlist, cleartext):
     output = subprocess.check_output(("tee", HASHCAT_LOGS_PATH), stdin=ps.stdout)
     ps.wait()
 
+def append_new_line(file_name, text_to_append):
+    with open(file_name, 'a') as f:
+        f.write(text_to_append)
+        f.write('\n')
+
+def extract_between(text, sub1, sub2):
+    start = text.find(sub1)
+    if start == -1: return None
+    start += len(sub1)
+    end = text.find(sub2, start)
+    if end == -1: return None
+    return text[start:end]
+
+def get_line_with_phrase(file_name, phrase):
+    with open(file_name, 'r') as f:
+        for line in f:
+            if phrase in line:
+                return line
+
+def get_effectiveness(file_name, phrase):
+    line = get_line_with_phrase(file_name, phrase)
+    return extract_between(line, 'Recovered........:', 'Digests')
+
 if __name__ == "__main__":
     wordlist = '10k-most-common-google-words.txt'
     cleartext = '7-more-passwords.txt'
@@ -59,8 +83,16 @@ if __name__ == "__main__":
     
     hashcat_attack(wordlist=wordlist, cleartext=cleartext)
 
+    effectiveness = get_effectiveness('/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_attack_logs.txt', 'Recovered')
+    now = datetime.now()
+    date_time = now.strftime("%d/%m/%Y %H:%M:%S")
+    to_save = '[test]' + ' wordlist:' + wordlist + ', cleartext' + cleartext +  ', recovered:' + effectiveness + ', date:' + date_time
+    append_new_line('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness.txt', to_save)
+
+
     # TODO EXTRACT the result from the hashcat_log file and print it, save to the file
     # tamplate to save [TAG] wordlist, cleartext, Recovered, Recovered Before Mangling 
+    # TODO start thinking about the schema for 4th chapter
     # TODO john_attack.py
 
 
