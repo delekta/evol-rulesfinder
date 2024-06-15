@@ -52,7 +52,10 @@ RulesToSignsNumber = {
 """
 parse array of string to array of arrays of single rules
 """
-def format_rules(rules):
+def format_rules(rulesfinder_result_path):
+    with open(rulesfinder_result_path, 'r') as file:
+        rules = [line.strip() for line in file.readlines()[1:-1]]   
+
     result = []
     for rule in rules:
         index = 0

@@ -1,1 +1,1 @@
-[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 6813/528135 (1.29%) , date:15/06/2024 02:52:34
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 6417/528135 (1.22%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 20:02:43
