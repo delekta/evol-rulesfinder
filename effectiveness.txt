@@ -1,1 +1,27 @@
 [test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 6417/528135 (1.22%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 20:02:43
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 7664/528135 (1.45%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 20:53:11
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 5908/528135 (1.12%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 20:56:06
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 5059/528135 (0.96%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:02:18
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 7496/528135 (1.42%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:04:49
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 5842/528135 (1.11%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:07:17
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 6026/528135 (1.14%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:08:43
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 7298/528135 (1.38%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:11:27
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 7486/528135 (1.42%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:13:00
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 5566/528135 (1.05%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:14:36
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 6507/528135 (1.23%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:16:06
+[test] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 8167/528135 (1.55%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:21:54
+[without mutation] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 6088/528135 (1.15%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:24:27
+[without mutation] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 8123/528135 (1.54%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:25:40
+[without mutation] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 7375/528135 (1.40%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:27:24
+[without mutation] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 4545/528135 (0.86%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:29:01
+[without mutation] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 5999/528135 (1.14%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:31:10
+[without mutation] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 6460/528135 (1.22%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:32:32
+[without mutation] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 7384/528135 (1.40%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:34:02
+[choose worst popularity] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 12378/528135 (2.34%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:49:51
+[choose worst popularity] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 11962/528135 (2.26%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:51:22
+[choose worst popularity] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 13081/528135 (2.48%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:52:58
+[choose worst popularity] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 13287/528135 (2.52%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:54:43
+[choose worst popularity] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 12299/528135 (2.33%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:55:59
+[choose worst popularity] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 12032/528135 (2.28%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:57:15
+[choose worst popularity] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 11663/528135 (2.21%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 21:58:31
+[choose worst popularity] wordlist:10k-most-common-google-words.txt, cleartext7-more-passwords.txt, recovered: 12546/528135 (2.38%) , recovered rulesfinder: 43191/528135 (8.18%) , date:15/06/2024 22:19:03

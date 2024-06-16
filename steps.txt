@@ -24,6 +24,10 @@ Pomysły na opisy:
 - Opisz proces. Ze no są gorsze wyniki niz z rulesfindera ale zaczales bardzo slabo i pozniej poprawiales i ma to sens na przyszlosc.
 - Proces jak zapisuje wszystko w poszczególnych ze cos w ./hashcat_log.txt itp
 - Czy powinienem porównywać z tymi samymi cleartext i wordlist co podaje do rulesfindera
+- [usniecie mutation] nie duzo zmienia w sumie nic
+- [worst population] has better results probably becuase shorter rules są wybierane. Bo źle to liczę. Ja sumuje czyli dłusze rule są promowane. A dluzsze nie sa tak dobre
+- [sprawdz popular + short] to premiuj i zobacz wyniki
+
 
 Następny ticket jest zeby zaautmatyzować do jednej komendy sprawdzającej. Która wykona parę komend tych wszystkich co trzeba. 
 

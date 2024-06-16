@@ -77,7 +77,7 @@ def save_algo_result(wordlist, cleartext):
     effectiveness_rulesfinder = get_effectiveness(HASHCAT_RULESFINDER_LOGS_PATH, 'Recovered')
     now = datetime.now()
     date_time = now.strftime("%d/%m/%Y %H:%M:%S")
-    to_save = '[test]' + ' wordlist:' + wordlist + ', cleartext' + cleartext +  ', recovered:' + effectiveness +  ', recovered rulesfinder:' + effectiveness_rulesfinder + ', date:' + date_time
+    to_save = '[choose worst popularity]' + ' wordlist:' + wordlist + ', cleartext' + cleartext +  ', recovered:' + effectiveness +  ', recovered rulesfinder:' + effectiveness_rulesfinder + ', date:' + date_time
     append_new_line('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness.txt', to_save)
 
 if __name__ == "__main__":
@@ -103,8 +103,6 @@ if __name__ == "__main__":
 
     save_algo_result(wordlist, cleartext)
 
-    # TODO EXTRACT the result from the hashcat_log file and print it, save to the file
-    # tamplate to save [TAG] wordlist, cleartext, Recovered, Recovered Before Mangling 
     # TODO start thinking about the schema for 4th chapter
     # TODO john_attack.py
 
