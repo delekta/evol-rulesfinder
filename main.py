@@ -9,6 +9,10 @@ CLEARTEXT_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/cleartext/'
 EVOL_RULES_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/evol_algo_result.txt'
 HASHCAT_LOGS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_attack_logs.txt'
 HASHCAT_RULESFINDER_LOGS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_rulesfinder_attack_logs.txt'
+HASHCAT_RULE_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_rules/'
+HASHCAT_DEFAULT_RULE_NAME = 'rockyou-30000.rule'
+HASHCAT_DEFAULT_RULE_PATH = HASHCAT_RULE_DIR + HASHCAT_DEFAULT_RULE_NAME
+HASHCAT_DEFAULT_RULES_LOGS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_default_attack_logs.txt'
 
 
 def extract_rules_with_rulesfinder(wordlist, cleartext):
@@ -43,6 +47,14 @@ def hashcat_attack_rulesfinder(wordlist, cleartext, rulesfinder_result_path):
     output = subprocess.check_output(("tee", HASHCAT_RULESFINDER_LOGS_PATH), stdin=ps.stdout)
     ps.wait()
 
+def hashcat_attack_default_rules(wordlist, cleartext):
+    wordlist_path = WORDLIST_DIR + wordlist
+    cleartext_path = CLEARTEXT_DIR + cleartext
+
+    ps = subprocess.Popen(("hashcat", "-m", "99999", cleartext_path, wordlist_path, '-r', HASHCAT_DEFAULT_RULE_PATH, '--debug-mode=4', '--debug-file=matched.rule'), stdout=subprocess.PIPE)
+    output = subprocess.check_output(("tee", HASHCAT_DEFAULT_RULES_LOGS_PATH), stdin=ps.stdout)
+    ps.wait()
+
 def append_new_line(file_name, text_to_append):
     with open(file_name, 'a') as f:
         f.write(text_to_append)
@@ -75,9 +87,10 @@ def save_evol_rules(evol_rules):
 def save_algo_result(wordlist, cleartext):
     effectiveness = get_effectiveness(HASHCAT_LOGS_PATH, 'Recovered')
     effectiveness_rulesfinder = get_effectiveness(HASHCAT_RULESFINDER_LOGS_PATH, 'Recovered')
+    effectiveness_hashcat = get_effectiveness(HASHCAT_DEFAULT_RULES_LOGS_PATH, 'Recovered')
     now = datetime.now()
     date_time = now.strftime("%d/%m/%Y %H:%M:%S")
-    to_save = '[choose worst popularity]' + ' wordlist:' + wordlist + ', cleartext' + cleartext +  ', recovered:' + effectiveness +  ', recovered rulesfinder:' + effectiveness_rulesfinder + ', date:' + date_time
+    to_save = '[choose worst popularity]' + ' wordlist:' + wordlist + ', cleartext' + cleartext +  ', recovered:' + effectiveness +  ', recovered rulesfinder:' + effectiveness_rulesfinder + ', recovered "'+ HASHCAT_DEFAULT_RULE_NAME +'":' + effectiveness_hashcat + ', date:' + date_time
     append_new_line('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness.txt', to_save)
 
 if __name__ == "__main__":
@@ -100,6 +113,7 @@ if __name__ == "__main__":
     
     hashcat_attack(wordlist=wordlist, cleartext=cleartext)
     hashcat_attack_rulesfinder(wordlist, cleartext, rulesfinder_result_path)
+    hashcat_attack_default_rules(wordlist, cleartext)
 
     save_algo_result(wordlist, cleartext)
 
