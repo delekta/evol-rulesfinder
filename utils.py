@@ -94,6 +94,18 @@ def get_sum_of_rule(rule, popularity):
     # print(rule, result) 
     return result
 
+# we want to premium shorter rules. Looks like the score better
+def length_value(word):
+    # if len(word) > 6:
+    #     return 0
+
+    return 3000 - 300 * len(word)
+
+def get_rule_value(rule, popularity):
+    return get_sum_of_rule(rule, popularity) + length_value(rule)
+
+
+
 # TODO Enable this function so it works for all signs
 def get_random_rule_sign():
     while True:

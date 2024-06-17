@@ -90,7 +90,7 @@ def save_algo_result(wordlist, cleartext):
     effectiveness_hashcat = get_effectiveness(HASHCAT_DEFAULT_RULES_LOGS_PATH, 'Recovered')
     now = datetime.now()
     date_time = now.strftime("%d/%m/%Y %H:%M:%S")
-    to_save = '[choose worst popularity]' + ' wordlist:' + wordlist + ', cleartext' + cleartext +  ', recovered:' + effectiveness +  ', recovered rulesfinder:' + effectiveness_rulesfinder + ', recovered "'+ HASHCAT_DEFAULT_RULE_NAME +'":' + effectiveness_hashcat + ', date:' + date_time
+    to_save = '[popularity + 3000 - 300 * len(word)]' + ' wordlist:' + wordlist + ', cleartext' + cleartext +  ', recovered:' + effectiveness +  ', recovered rulesfinder:' + effectiveness_rulesfinder + ', recovered "'+ HASHCAT_DEFAULT_RULE_NAME +'":' + effectiveness_hashcat + ', date:' + date_time
     append_new_line('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness.txt', to_save)
 
 if __name__ == "__main__":

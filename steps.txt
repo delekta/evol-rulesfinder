@@ -31,3 +31,19 @@ Pomysły na opisy:
 
 Następny ticket jest zeby zaautmatyzować do jednej komendy sprawdzającej. Która wykona parę komend tych wszystkich co trzeba. 
 
+[test] popularity sum + mutation 
+[without mutation] popularity sum - mutation
+[choose worst popularity] worst popularity - mutation 
+Wnioski: to jest efektywne tylko dlatego ze mamy złą metode do liczenie popularity. Jedynie czemu to dziala to dlatego ze sumowanie i jak wybieramy worst to premiuje małe reguły
+Więć spróbujmy napiać takie coś co premiuje małe reguły i lepsze reguły.
+
+Pytanie jak bardzo premiować krótkie frazy. Lets test it
+[popularity + 600 - 100*len] No trochę lepiej niz test, ale tylko ciupk
+
+Dwa rozdziały:
+1. Manipuluje popularity function
+2. Manipuluje argumentami to algorytmu ewolucyjnego
+
+TODO napisz w magisterece jak powstał słownik najlepszych reguł
+
+
