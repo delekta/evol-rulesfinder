@@ -5,8 +5,8 @@ from utils import get_rules_popularity , get_random_rule_sign, get_rule_value
 Fitness function ideas:
 - the most popular rules, create weight of rules and sum them here
 """
-def fitness_function(individual, popularity):
-    return get_rule_value(individual, popularity)
+def fitness_function(individual, popularity, base, multiply):
+    return get_rule_value(individual, popularity, base, multiply)
 
 def tournament_selection(population, fitness_values, tournament_size):
     best_individual = None
@@ -31,10 +31,10 @@ def mutation(individual, mutation_rate):
     return individual
 
 # requires formatted rules as population
-def evolutionary_algorithm(population, population_size, individual_length, num_generations, mutation_rate, tournament_size):
+def evolutionary_algorithm(population, population_size, individual_length, num_generations, mutation_rate, tournament_size, base = 1700, multiply = 350):
     popularity = get_rules_popularity(population)
     for _ in range(num_generations):
-        fitness_values = [fitness_function(individual, popularity) for individual in population]
+        fitness_values = [fitness_function(individual, popularity, base, multiply) for individual in population]
 
         new_population = []
         while len(new_population) < population_size:

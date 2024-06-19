@@ -45,5 +45,8 @@ Dwa rozdziały:
 2. Manipuluje argumentami to algorytmu ewolucyjnego
 
 TODO napisz w magisterece jak powstał słownik najlepszych reguł
-
+TODO zrób diagram algorytmu, rulesfinder -> ewolucyjny
+TODO jakieś wykresy 
+TODO Wnioski: dlaczego to moze nie wyjsc. Bo nie mam takich zbiorów. Specyficznych dla specyficznych domen.
+TODO: rulesfinder ze swoim zbiorem 8.18% ale co jak tu nauczymy, a wykorzystamy z innym zbiorem.
 

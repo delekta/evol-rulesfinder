@@ -95,14 +95,14 @@ def get_sum_of_rule(rule, popularity):
     return result
 
 # we want to premium shorter rules. Looks like the score better
-def length_value(word):
+def length_value(word, base, multiply):
     # if len(word) > 6:
     #     return 0
 
-    return 3000 - 300 * len(word)
+    return base - multiply * len(word)
 
-def get_rule_value(rule, popularity):
-    return get_sum_of_rule(rule, popularity) + length_value(rule)
+def get_rule_value(rule, popularity, base, multiply):
+    return get_sum_of_rule(rule, popularity) + length_value(rule, base, multiply)
 
 
 

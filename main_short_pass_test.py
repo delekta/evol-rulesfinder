@@ -39,22 +39,6 @@ def hashcat_attack(wordlist, cleartext):
     output = subprocess.check_output(("tee", HASHCAT_LOGS_PATH), stdin=ps.stdout)
     ps.wait()
 
-def hashcat_attack_rulesfinder(wordlist, cleartext, rulesfinder_result_path):
-    wordlist_path = WORDLIST_DIR + wordlist
-    cleartext_path = CLEARTEXT_DIR + cleartext
-
-    ps = subprocess.Popen(("hashcat", "-m", "99999", cleartext_path, wordlist_path, '-r', rulesfinder_result_path, '--debug-mode=4', '--debug-file=matched.rule'), stdout=subprocess.PIPE)
-    output = subprocess.check_output(("tee", HASHCAT_RULESFINDER_LOGS_PATH), stdin=ps.stdout)
-    ps.wait()
-
-def hashcat_attack_default_rules(wordlist, cleartext):
-    wordlist_path = WORDLIST_DIR + wordlist
-    cleartext_path = CLEARTEXT_DIR + cleartext
-
-    ps = subprocess.Popen(("hashcat", "-m", "99999", cleartext_path, wordlist_path, '-r', HASHCAT_DEFAULT_RULE_PATH, '--debug-mode=4', '--debug-file=matched.rule'), stdout=subprocess.PIPE)
-    output = subprocess.check_output(("tee", HASHCAT_DEFAULT_RULES_LOGS_PATH), stdin=ps.stdout)
-    ps.wait()
-
 def append_new_line(file_name, text_to_append):
     with open(file_name, 'a') as f:
         f.write(text_to_append)
@@ -90,8 +74,15 @@ def save_algo_result(wordlist, cleartext):
     effectiveness_hashcat = get_effectiveness(HASHCAT_DEFAULT_RULES_LOGS_PATH, 'Recovered')
     now = datetime.now()
     date_time = now.strftime("%d/%m/%Y %H:%M:%S")
-    to_save = '[popularity + default * len(word)]' + ' wordlist:' + wordlist + ', cleartext' + cleartext +  ', recovered:' + effectiveness +  ', recovered rulesfinder:' + effectiveness_rulesfinder + ', recovered "'+ HASHCAT_DEFAULT_RULE_NAME +'":' + effectiveness_hashcat + ', date:' + date_time
+    to_save = '[popularity + 3000 - 300 * len(word)]' + ' wordlist:' + wordlist + ', cleartext' + cleartext +  ', recovered:' + effectiveness +  ', recovered rulesfinder:' + effectiveness_rulesfinder + ', recovered "'+ HASHCAT_DEFAULT_RULE_NAME +'":' + effectiveness_hashcat + ', date:' + date_time
     append_new_line('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness.txt', to_save)
+
+def save_test(base, multiply):
+    effectiveness = get_effectiveness(HASHCAT_LOGS_PATH, 'Recovered')
+    now = datetime.now()
+    date_time = now.strftime("%d/%m/%Y %H:%M:%S")
+    to_save = str(base) + ',' + str(multiply) + ',' + effectiveness
+    append_new_line('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness_test.txt', to_save)
 
 if __name__ == "__main__":
     wordlist = '10k-most-common-google-words.txt'
@@ -107,18 +98,44 @@ if __name__ == "__main__":
     mutation_rate = 0.01
     tournament_size = 5
 
-    evol_rules = evolutionary_algorithm(rules_formatted, pop_size, individual_length, num_generations, mutation_rate, tournament_size)
+    for base in range(400, 4000, 100):
+        for multiply in range(50, 500, 50):
+            evol_rules = evolutionary_algorithm(rules_formatted, pop_size, individual_length, num_generations, mutation_rate, tournament_size, base=3000, multiply=300)
+            save_evol_rules(evol_rules)
+            hashcat_attack(wordlist=wordlist, cleartext=cleartext)
+            save_test(base, multiply)
+    import re
 
-    save_evol_rules(evol_rules)
+    result = []
+
+    with open('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness_test.txt', 'r') as f:
+        for line in f:
+            line = line.rstrip('\n')
+            parts = line.split(',')[0:2]
+            match = re.search(r'\((.*?)%\)', line)
+            if match:
+                parts.append(match.group(1))
+            to_save = ','.join(parts)
+            result += [to_save]
     
-    hashcat_attack(wordlist=wordlist, cleartext=cleartext)
-    hashcat_attack_rulesfinder(wordlist, cleartext, rulesfinder_result_path)
-    hashcat_attack_default_rules(wordlist, cleartext)
+    with open('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness_test.txt', 'a') as f:
+        for el in result:
+            f.write(el)
+            f.write('\n')
 
-    save_algo_result(wordlist, cleartext)
+            import pandas as pd
 
-    # TODO start thinking about the schema for 4th chapter
-    # TODO john_attack.py
+    # Read the file into a pandas DataFrame
+    import pandas as pd
+
+    data = pd.read_csv('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness_test.txt', header=None, names=['X', 'Y', 'Z'])
+
+    # Calculate the correlation matrix
+    correlation_matrix = data.corr()
+
+    # Print the correlation matrix
+    print(correlation_matrix)
+    print(correlation_matrix['Z'])
 
 
    
