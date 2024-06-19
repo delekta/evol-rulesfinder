@@ -2,3 +2,4 @@ wordlist/rockyou.txt
 env/lib*
 *DS_Store*
 *.pyc
+*logs.txt
