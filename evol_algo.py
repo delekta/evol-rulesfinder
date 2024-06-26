@@ -31,8 +31,7 @@ def mutation(individual, mutation_rate):
     return individual
 
 # requires formatted rules as population
-def evolutionary_algorithm(population, population_size, individual_length, num_generations, mutation_rate, tournament_size, base = 1700, multiply = 350):
-    popularity = get_rules_popularity(population)
+def evolutionary_algorithm(popularity, population, population_size, individual_length, num_generations, mutation_rate, tournament_size, base = 1700, multiply = 350):
     for _ in range(num_generations):
         fitness_values = [fitness_function(individual, popularity, base, multiply) for individual in population]
 

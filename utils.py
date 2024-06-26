@@ -96,9 +96,6 @@ def get_sum_of_rule(rule, popularity):
 
 # we want to premium shorter rules. Looks like the score better
 def length_value(word, base, multiply):
-    # if len(word) > 6:
-    #     return 0
-
     return base - multiply * len(word)
 
 def get_rule_value(rule, popularity, base, multiply):

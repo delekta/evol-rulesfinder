@@ -37,8 +37,7 @@ Następny ticket jest zeby zaautmatyzować do jednej komendy sprawdzającej. Kt
 Wnioski: to jest efektywne tylko dlatego ze mamy złą metode do liczenie popularity. Jedynie czemu to dziala to dlatego ze sumowanie i jak wybieramy worst to premiuje małe reguły
 Więć spróbujmy napiać takie coś co premiuje małe reguły i lepsze reguły.
 
-Pytanie jak bardzo premiować krótkie frazy. Lets test it
-[popularity + 600 - 100*len] No trochę lepiej niz test, ale tylko ciupk
+
 
 Dwa rozdziały:
 1. Manipuluje popularity function
@@ -50,3 +49,33 @@ TODO jakieś wykresy
 TODO Wnioski: dlaczego to moze nie wyjsc. Bo nie mam takich zbiorów. Specyficznych dla specyficznych domen.
 TODO: rulesfinder ze swoim zbiorem 8.18% ale co jak tu nauczymy, a wykorzystamy z innym zbiorem.
 
+Wykresy:
+
+1. Zmieniam popularity function w algorytmie ewolucyjnym
+Moje warianty
+- popularity sum + mutation - sumuje popularność jednostkowych reguł w regule
+- popularity sum - tu usuwam funkcje mutacji. Bo się okazuję ze w sumie nie duzo zmienia
+- [choose worst popularity] worst popularity - mutation - robie test co jakbym w algorytmie ewolucyjnym wybieral najgorsze reguly, najgorsze sumy reguł. i się okazuje ze to daje najlepsze wyniki z moich podejsc. Po tym stawiam hipoteze. ze moze ja prosto sumuje i wygrywają reguły najdłusze 
+a w realnym zyciu to te krotkie reguly wygrywaja. 
+Hipoteza:
+Wnioski: to jest efektywne tylko dlatego ze mamy złą metode do liczenie popularity. Jedynie czemu to dziala to dlatego ze sumowanie i jak wybieramy worst to premiuje małe reguły
+Więć spróbujmy napiać takie coś co premiuje małe reguły i lepsze reguły.
+
+Obalenie hipotezy:
+Wiec tutaj robie test dla krotkich fraz pisze algorytm ktory w rozny sposob premiuje krotkie frazy. ale wyniki nie sa zadawalajce. 
+Pytanie jak bardzo premiować krótkie frazy. Lets test it
+[popularity + start_value - mulitiplier*len(rule)] - czyli im dluzsza rula to odejmowalem jakies wartosci .No trochę lepiej niz test, ale tylko ciupk. Nie daje takich wyników.
+Średnia wszystkich wyników. Plus jeden największy wynik który się mega odzancza od innych, Daj jakąś wartość e to przypadek i tyle
+Pisze algorytm gdzie zmieniam start_value i mulitiplier algorytmu i wychodzi ze niby 
+widac ze correlation jest male miedzy tymi wartosciami a wynikiem dobrym. dla start_balue correlation value jest tylko -0.09.
+liczylem to metoda corr() - Compute pairwise correlation of columns. z bibliteki pandas. I mówi to o małej korelacji 
+
+duzo wynikow i correlation id pokazuje ze to nie to - correlation matrix 
+2. Manipuluje argumentami to algorytmu ewolucyjnego ilosc epok, liczba osobnikow w populacji i te wszystkie inne wartosci wejsciowe
+wyniki tego algorytmu dopisze pozniej
+
+3. Sprawdzam 
+
+Rozdział z siłą hasła. 
+
+I should test on different cleartext than i extract values

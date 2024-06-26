@@ -100,7 +100,14 @@ if __name__ == "__main__":
 
     for base in range(400, 4000, 100):
         for multiply in range(50, 500, 50):
-            evol_rules = evolutionary_algorithm(rules_formatted, pop_size, individual_length, num_generations, mutation_rate, tournament_size, base=3000, multiply=300)
+            evol_rules = evolutionary_algorithm(rules_formatted, 
+                                                pop_size, 
+                                                individual_length, 
+                                                num_generations, 
+                                                mutation_rate, 
+                                                tournament_size, 
+                                                base,
+                                                multiply)
             save_evol_rules(evol_rules)
             hashcat_attack(wordlist=wordlist, cleartext=cleartext)
             save_test(base, multiply)
