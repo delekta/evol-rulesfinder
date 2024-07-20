@@ -89,7 +89,7 @@ if __name__ == "__main__":
     # tournament_size = 2
     # popularity = get_rules_popularity(rules_formatted)
 
-    # for pop_size in range(50, 5000, 50):
+    # for pop_size in range(50, 20000, 50):
     #             evol_rules = evolutionary_algorithm(popularity,
     #                                                 rules_formatted, 
     #                                                 pop_size, 
@@ -101,7 +101,6 @@ if __name__ == "__main__":
     #             hashcat_attack(wordlist=wordlist, cleartext=cleartext)
     #             save_test(pop_size)
     
-    # 2
     # import re
     # result = []
 
