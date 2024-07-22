@@ -19,7 +19,7 @@ TEST_RESULTS = '/Users/kamil.delekta/Erasmus/Magisterka/Project/strength_result.
 def extract_rules_with_rulesfinder(wordlist, cleartext):
     wordlist_path = WORDLIST_DIR + wordlist
     cleartext_path = CLEARTEXT_DIR + cleartext
-    result_filename = wordlist + '|' + cleartext
+    result_filename = wordlist + '_' + cleartext
 
     RESULTS_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/results/'
     result_path = RESULTS_DIR + result_filename
@@ -75,9 +75,6 @@ def save_test(pop_size):
     append_new_line(TEST_RESULTS, to_save)
 
 def create_passwords(wordlist, rules, tag):
-    # ps = subprocess.Popen(("hashcat", "-a", "0", "-m", "0", '/Users/kamil.delekta/Erasmus/Magisterka/Project/wordlist/10k-most-common-google-words.txt', '-r', '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_rules/top10_2023.rule'), stdout=subprocess.PIPE)
-    # output = subprocess.check_output(("tee", 'passwords_tag.txt'), stdin=ps.stdout)
-    # ps.wait()
     command = f"hashcat -a 0 -m 0 {wordlist} -r {rules} --stdout > passwords_{tag}.txt"
 
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
@@ -116,12 +113,6 @@ if __name__ == "__main__":
     create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=HASHCAT_DEFAULT_RULE_PATH, tag='hashcat')
     create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=rulesfinder_result_path, tag='rulesfinder')
     create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=EVOL_RULES_PATH, tag='evol')
-
-    # TODO a way to create passwords from rules and wordlist 
-
-    # words + hashcat_rules
-    # words + rulesfinder_rules
-    # words + evol_rules
     # check average strength of each 
 
 
