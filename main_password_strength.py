@@ -1,3 +1,6 @@
+import random
+import statistics
+from zxcvbn import zxcvbn
 from utils import format_rules, get_rules_popularity
 from evol_algo import evolutionary_algorithm
 import subprocess
@@ -6,6 +9,7 @@ from datetime import datetime
 
 WORDLIST_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/wordlist/'
 CLEARTEXT_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/cleartext/'
+RULES_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/rules/'
 EVOL_RULES_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/evol_algo_result.txt'
 HASHCAT_LOGS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_attack_logs.txt'
 HASHCAT_RULESFINDER_LOGS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_rulesfinder_attack_logs.txt'
@@ -74,52 +78,71 @@ def save_test(pop_size):
     to_save = str(pop_size) + ',' + effectiveness
     append_new_line(TEST_RESULTS, to_save)
 
+def prepare_random_lines(file, num_lines, save_file):
+    with open(file, 'r') as f:
+        words = [line.strip() for line in f]
+
+    num_lines = min(num_lines, len(words))
+    random_words = random.sample(words, num_lines)
+    with open(save_file, 'w') as f:
+        for word in random_words:
+            f.write(word + '\n')
+
 def create_passwords(wordlist, rules, tag):
-    command = f"hashcat -a 0 -m 0 {wordlist} -r {rules} --stdout > passwords_{tag}.txt"
+    random_wordlist_path = WORDLIST_DIR + 'random_wordlist.txt'
+    random_rules_path = RULES_DIR + 'random_rules.txt'
+    prepare_random_lines(wordlist, 10, random_wordlist_path)
+    prepare_random_lines(rules, 1000, random_rules_path)
+    command = f"hashcat -a 0 -m 0 {random_wordlist_path} -r {random_rules_path} --stdout | head -n 10000 > passwords_{tag}.txt"
 
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
     process.wait()
-    print("Return code: ", process.returncode)
 
+def get_avg_strength(path):
+    with open(path, 'r') as file:
+        words = [int(zxcvbn(line.strip())['guesses_log10']) for line in file]
+        print(sum(words))
+        return statistics.mean(words)
 
 if __name__ == "__main__":
     # 1
-    # wordlist = '10k-most-common-google-words.txt'
-    # cleartext = '7-more-passwords.txt'
+    wordlist = '10k-most-common-google-words.txt'
+    cleartext = '7-more-passwords.txt'
 
     # rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
-    # rules_formatted = format_rules(rulesfinder_result_path)
+    rulesfinder_result_path = '/Users/kamil.delekta/Erasmus/Magisterka/Project/results/10k-most-common-google-words.txt_7-more-passwords.txt'
+    rules_formatted = format_rules(rulesfinder_result_path)
 
-    # # Have chosen the best parameters num_generations = 20, tournament_size = 2
-    # individual_length = 10
-    # num_generations = 20
-    # mutation_rate = 0.01
-    # tournament_size = 2
-    # popularity = get_rules_popularity(rules_formatted)
-    # pop_size = 10
+    # Have chosen the best parameters num_generations = 20, tournament_size = 2
+    individual_length = 10
+    num_generations = 20
+    mutation_rate = 0.01
+    tournament_size = 2
+    popularity = get_rules_popularity(rules_formatted)
+    pop_size = 10
 
-    # # potential loop
-    # evol_rules = evolutionary_algorithm(popularity,
-    #                                     rules_formatted, 
-    #                                     pop_size, 
-    #                                     individual_length, 
-    #                                     num_generations,
-    #                                     mutation_rate,
-    #                                     tournament_size)
-    # save_evol_rules(evol_rules)
-    # hashcat_attack(wordlist=wordlist, cleartext=cleartext)
-    # save_test(pop_size)
+    create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=rulesfinder_result_path, tag='rulesfinder')
+    print('rulesfinder avg strength:', get_avg_strength('./passwords_rulesfinder.txt'))
+    create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=HASHCAT_DEFAULT_RULE_PATH, tag='hashcat')
+    print('hashcat avg strength:', get_avg_strength('./passwords_hashcat.txt'))
 
-    # create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=HASHCAT_DEFAULT_RULE_PATH, tag='hashcat')
-    # create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=rulesfinder_result_path, tag='rulesfinder')
-    # create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=EVOL_RULES_PATH, tag='evol')
+
+    for num_generations in range(50, 1000, 50):
+        evol_rules = evolutionary_algorithm(popularity,
+                                        rules_formatted, 
+                                        pop_size, 
+                                        individual_length, 
+                                        num_generations,
+                                        mutation_rate,
+                                        tournament_size)
+        save_evol_rules(evol_rules)
+        create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=EVOL_RULES_PATH, tag='evol')
+        print(f'evol rulesfinder<num_generations:{num_generations}> avg strength:', get_avg_strength('./passwords_evol.txt'))
+        # save_test(pop_size)
+
+
+
     # check average strength of each 
-
-    from zxcvbn import zxcvbn
-
-    results = zxcvbn('JohnSmith123', user_inputs=['John', 'Smith'])
-
-    print(results['guesses'])
     
     # import re
     # result = []
