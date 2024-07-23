@@ -94,7 +94,7 @@ def create_passwords(wordlist, rules, tag):
     random_rules_path = RULES_DIR + 'random_rules.txt'
     prepare_random_lines(wordlist, 10, random_wordlist_path)
     prepare_random_lines(rules, 1000, random_rules_path)
-    command = f"hashcat -a 0 -m 0 {random_wordlist_path} -r {random_rules_path} --stdout | head -n 10000 > passwords_{tag}.txt"
+    command = f"hashcat -a 0 -m 0 {random_wordlist_path} -r {random_rules_path} --stdout > passwords_{tag}.txt"
 
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
     process.wait()
