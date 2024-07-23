@@ -84,38 +84,42 @@ def create_passwords(wordlist, rules, tag):
 
 if __name__ == "__main__":
     # 1
-    wordlist = '10k-most-common-google-words.txt'
-    cleartext = '7-more-passwords.txt'
+    # wordlist = '10k-most-common-google-words.txt'
+    # cleartext = '7-more-passwords.txt'
 
-    rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
-    rules_formatted = format_rules(rulesfinder_result_path)
+    # rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
+    # rules_formatted = format_rules(rulesfinder_result_path)
 
-    # Have chosen the best parameters num_generations = 20, tournament_size = 2
-    individual_length = 10
-    num_generations = 20
-    mutation_rate = 0.01
-    tournament_size = 2
-    popularity = get_rules_popularity(rules_formatted)
-    pop_size = 10
+    # # Have chosen the best parameters num_generations = 20, tournament_size = 2
+    # individual_length = 10
+    # num_generations = 20
+    # mutation_rate = 0.01
+    # tournament_size = 2
+    # popularity = get_rules_popularity(rules_formatted)
+    # pop_size = 10
 
-    # potential loop
-    evol_rules = evolutionary_algorithm(popularity,
-                                        rules_formatted, 
-                                        pop_size, 
-                                        individual_length, 
-                                        num_generations,
-                                        mutation_rate,
-                                        tournament_size)
-    save_evol_rules(evol_rules)
-    hashcat_attack(wordlist=wordlist, cleartext=cleartext)
-    save_test(pop_size)
+    # # potential loop
+    # evol_rules = evolutionary_algorithm(popularity,
+    #                                     rules_formatted, 
+    #                                     pop_size, 
+    #                                     individual_length, 
+    #                                     num_generations,
+    #                                     mutation_rate,
+    #                                     tournament_size)
+    # save_evol_rules(evol_rules)
+    # hashcat_attack(wordlist=wordlist, cleartext=cleartext)
+    # save_test(pop_size)
 
-    create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=HASHCAT_DEFAULT_RULE_PATH, tag='hashcat')
-    create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=rulesfinder_result_path, tag='rulesfinder')
-    create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=EVOL_RULES_PATH, tag='evol')
+    # create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=HASHCAT_DEFAULT_RULE_PATH, tag='hashcat')
+    # create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=rulesfinder_result_path, tag='rulesfinder')
+    # create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=EVOL_RULES_PATH, tag='evol')
     # check average strength of each 
 
+    from zxcvbn import zxcvbn
 
+    results = zxcvbn('JohnSmith123', user_inputs=['John', 'Smith'])
+
+    print(results['guesses'])
     
     # import re
     # result = []
