@@ -31,7 +31,7 @@ def mutation(individual, mutation_rate):
     return individual
 
 # requires formatted rules as population
-def evolutionary_algorithm(popularity, population, population_size, individual_length, num_generations, mutation_rate, tournament_size, base = 1700, multiply = 350):
+def evolutionary_algorithm(popularity, population, population_size, min_individual_length, num_generations, mutation_rate, tournament_size, base = 1700, multiply = 350):
     for _ in range(num_generations):
         fitness_values = [fitness_function(individual, popularity, base, multiply) for individual in population]
 
@@ -41,6 +41,8 @@ def evolutionary_algorithm(popularity, population, population_size, individual_l
             parent2 = tournament_selection(population, fitness_values, tournament_size)
             child = crossover(parent1, parent2)
             child = mutation(child, mutation_rate)
+            if len(child) < min_individual_length: 
+                continue
             new_population.append(child.tolist())
     
     # best_idx = np.argmax([fitness_function(individual) for individual in population])

@@ -113,7 +113,7 @@ if __name__ == "__main__":
     rules_formatted = format_rules(rulesfinder_result_path)
 
     # Have chosen the best parameters num_generations = 20, tournament_size = 2 from previous tests
-    individual_length = 10
+    individual_length = 2
     num_generations = 20
     mutation_rate = 0.01
     tournament_size = 2
