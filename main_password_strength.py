@@ -129,8 +129,8 @@ if __name__ == "__main__":
     with open(PARAMETER_TEST_RESULTS, 'w') as file:
         pass
     # [NOTE] Update the parameter name if you update parameter of the loop
-    parameter_name = 'Num generations'
-    for num_generations in range(50, 1000, 50):
+    parameter_name = 'Mutation rate'
+    while mutation_rate < 0.50:
         evol_rules = evolutionary_algorithm(popularity,
                                         rules_formatted, 
                                         pop_size, 
@@ -141,9 +141,10 @@ if __name__ == "__main__":
         save_evol_rules(evol_rules)
         create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=EVOL_RULES_PATH, tag='evol')
         avg = get_avg_strength('./passwords_evol.txt')
-        print(f'evol rulesfinder<num_generations:{num_generations}> avg strength:', avg)
+        print(f'evol rulesfinder<mutation_rate:{mutation_rate}> avg strength:', avg)
         # [NOTE] Update the parameter_to_save if you update parameter of the loop
-        save_test(parameter_to_save=num_generations, value=avg, parameter_name=parameter_name)
+        save_test(parameter_to_save=mutation_rate, value=avg, parameter_name=parameter_name)
+        mutation_rate += 0.02
 
 
     x_data = []
@@ -154,11 +155,11 @@ if __name__ == "__main__":
         for line in lines:
             line = line.strip()
             x, y = line.split(",")[0:2]  # Take first two
-            x_data.append(int(x))
+            x_data.append(float(x))
             y_data.append(float(y))
 
     plt.plot(x_data, y_data)
-    plt.title(f"Num guesses vs {parameter_name}")
+    plt.title(f"Num guesses_log10 vs {parameter_name}")
     plt.xlabel(parameter_name)
-    plt.ylabel("Num guesses")
+    plt.ylabel("Num guesses_log10")
     plt.show()

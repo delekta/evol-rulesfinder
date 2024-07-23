@@ -25,9 +25,9 @@ def crossover(parent1, parent2):
 Replacing rules with other popular rules
 """
 def mutation(individual, mutation_rate):
-    # for i in range(len(individual)):
-    #     if np.random.rand() < mutation_rate:
-    #         individual[i] = get_random_rule_sign()
+    for i in range(len(individual)):
+        if np.random.rand() < mutation_rate:
+            individual[i] = get_random_rule_sign()
     return individual
 
 # requires formatted rules as population
