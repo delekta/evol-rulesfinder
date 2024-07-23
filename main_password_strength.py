@@ -6,6 +6,8 @@ from evol_algo import evolutionary_algorithm
 import subprocess
 import os
 from datetime import datetime
+import re
+import matplotlib.pyplot as plt 
 
 WORDLIST_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/wordlist/'
 CLEARTEXT_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/cleartext/'
@@ -17,7 +19,7 @@ HASHCAT_RULE_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_rule
 HASHCAT_DEFAULT_RULE_NAME = 'rockyou-30000.rule'
 HASHCAT_DEFAULT_RULE_PATH = HASHCAT_RULE_DIR + HASHCAT_DEFAULT_RULE_NAME
 HASHCAT_DEFAULT_RULES_LOGS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_default_attack_logs.txt'
-TEST_RESULTS = '/Users/kamil.delekta/Erasmus/Magisterka/Project/strength_result.txt'
+PARAMETER_TEST_RESULTS = '/Users/kamil.delekta/Erasmus/Magisterka/Project/strength_result.txt'
 
 
 def extract_rules_with_rulesfinder(wordlist, cleartext):
@@ -73,10 +75,9 @@ def save_evol_rules(evol_rules):
             rule = ''.join(item)
             f.write("%s\n" % rule)
 
-def save_test(pop_size):
-    effectiveness = get_effectiveness(HASHCAT_LOGS_PATH, 'Recovered')
-    to_save = str(pop_size) + ',' + effectiveness
-    append_new_line(TEST_RESULTS, to_save)
+def save_test(parameter_to_save, value, parameter_name):
+    to_save = str(parameter_to_save) + ',' + str(value) + ',' + parameter_name
+    append_new_line(PARAMETER_TEST_RESULTS, to_save)
 
 def prepare_random_lines(file, num_lines, save_file):
     with open(file, 'r') as f:
@@ -101,19 +102,17 @@ def create_passwords(wordlist, rules, tag):
 def get_avg_strength(path):
     with open(path, 'r') as file:
         words = [int(zxcvbn(line.strip())['guesses_log10']) for line in file]
-        print(sum(words))
         return statistics.mean(words)
 
 if __name__ == "__main__":
-    # 1
     wordlist = '10k-most-common-google-words.txt'
     cleartext = '7-more-passwords.txt'
 
-    # rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
+    rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
     rulesfinder_result_path = '/Users/kamil.delekta/Erasmus/Magisterka/Project/results/10k-most-common-google-words.txt_7-more-passwords.txt'
     rules_formatted = format_rules(rulesfinder_result_path)
 
-    # Have chosen the best parameters num_generations = 20, tournament_size = 2
+    # Have chosen the best parameters num_generations = 20, tournament_size = 2 from previous tests
     individual_length = 10
     num_generations = 20
     mutation_rate = 0.01
@@ -126,7 +125,11 @@ if __name__ == "__main__":
     create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=HASHCAT_DEFAULT_RULE_PATH, tag='hashcat')
     print('hashcat avg strength:', get_avg_strength('./passwords_hashcat.txt'))
 
-
+    # Clearing file before parameter test
+    with open(PARAMETER_TEST_RESULTS, 'w') as file:
+        pass
+    # [NOTE] Update the parameter name if you update parameter of the loop
+    parameter_name = 'Num generations'
     for num_generations in range(50, 1000, 50):
         evol_rules = evolutionary_algorithm(popularity,
                                         rules_formatted, 
@@ -137,54 +140,25 @@ if __name__ == "__main__":
                                         tournament_size)
         save_evol_rules(evol_rules)
         create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=EVOL_RULES_PATH, tag='evol')
-        print(f'evol rulesfinder<num_generations:{num_generations}> avg strength:', get_avg_strength('./passwords_evol.txt'))
-        # save_test(pop_size)
+        avg = get_avg_strength('./passwords_evol.txt')
+        print(f'evol rulesfinder<num_generations:{num_generations}> avg strength:', avg)
+        # [NOTE] Update the parameter_to_save if you update parameter of the loop
+        save_test(parameter_to_save=num_generations, value=avg, parameter_name=parameter_name)
 
 
+    x_data = []
+    y_data = []
 
-    # check average strength of each 
-    
-    # import re
-    # result = []
+    with open(PARAMETER_TEST_RESULTS, 'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            line = line.strip()
+            x, y = line.split(",")[0:2]  # Take first two
+            x_data.append(int(x))
+            y_data.append(float(y))
 
-    # with open(TEST_RESULTS, 'r') as f:
-    #     for line in f:
-    #         line = line.rstrip('\n')
-    #         parts = line.split(',')[0:1]
-    #         match = re.search(r'\((.*?)%\)', line)
-    #         if match:
-    #             parts.append(match.group(1))
-    #         to_save = ','.join(parts)
-    #         result += [to_save]
-
-    # with open(TEST_RESULTS, 'a') as f:
-    #     for el in result:
-    #         f.write(el)
-    #         f.write('\n')
-
-    # 3
-    # import matplotlib.pyplot as plt 
-
-    # # Initialize empty lists for x and y data
-    # x_data = []
-    # y_data = []
-
-    # # Read the file
-    # with open(TEST_RESULTS, 'r') as f:
-    #     lines = f.readlines()
-    #     for line in lines:
-    #         line = line.strip()  # Remove trailing newline
-    #         x, y = line.split(",")  # Split line by comma
-    #         x_data.append(int(x))
-    #         y_data.append(float(y))
-
-    # # Create the plot
-    # plt.plot(x_data, y_data)
-
-    # # Add title and labels
-    # plt.title("Effectiveness vs Population Size")
-    # plt.xlabel("population_size")
-    # plt.ylabel("effectiveness")
-
-    # # Show the plot
-    # plt.show()
+    plt.plot(x_data, y_data)
+    plt.title(f"Num guesses vs {parameter_name}")
+    plt.xlabel(parameter_name)
+    plt.ylabel("Num guesses")
+    plt.show()
