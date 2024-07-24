@@ -119,8 +119,5 @@ if __name__ == "__main__":
 
     save_algo_result(wordlist, cleartext)
 
-    # TODO start thinking about the schema for 4th chapter
-    # TODO john_attack.py
-
 
    

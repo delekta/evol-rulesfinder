@@ -81,7 +81,6 @@ if __name__ == "__main__":
     # rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
     # rules_formatted = format_rules(rulesfinder_result_path)
 
-    # TODO zrób to samo ale dodatkowo z individual_length i mutation_rate większym
     # Evolutionary Algorithm Parameters
     # pop_size = 100
     individual_length = 10

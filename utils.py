@@ -1,6 +1,6 @@
 import random
 
-# sign that encodes  rule and the amount of the signs it requires
+# sign that encodes rule and the amount of the signs it requires
 RulesToSignsNumber = {
     ':': 1,
     'l': 1,
