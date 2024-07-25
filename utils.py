@@ -2,52 +2,51 @@ import random
 
 # sign that encodes rule and the amount of the signs it requires
 RulesToSignsNumber = {
-    ':': 1,
-    'l': 1,
-    'u': 1,
-    'c': 1,
-    'C': 1,
-    't': 1,
-    'T': 2,
-    'r': 1,
-    'd': 1,
-    'p': 2,
-    'f': 1,
-    '{': 1,
-    '}': 1,
-    '$': 2,
-    '[': 1,
-    # '\\[': 1, unsupported
-    ']': 1,
-    # '\\]': 1, unsupported
-    'D': 2,
-    'x': 3,
-    'O': 3,
-    'i': 3,
-    'o': 3,
-    "'": 2,
-    's': 3,
-    '@': 2,
-    'z': 2,
-    'Z': 2,
-    'q': 1,
-    'X': 4,
-    '4': 1,
-    '6': 1,
-    'M': 1,
-    'L': 2,
-    'R': 2,
-    'k': 1,
-    'K': 1,
-    '*': 3,
-    '+': 2,
-    '-': 2,
-    '.': 2,
-    ',': 2,
-    'y': 2,
-    'Y': 2,
+    ':': 1, # Noop - no operation
+    'l': 1, # ToLower
+    'u': 1, # ToUpper
+    'c': 1, # Capitalize
+    'C': 1, # InvertCapitalize 
+    't': 1, # ToggleAll
+    'T': 2, # ToggleCase n - number
+    'r': 1, # Reverse
+    'd': 1, # Duplicate
+    'p': 2, # DupWordNTimes n - number
+    'f': 1, # Reflect
+    '{': 1, # RotLeft
+    '}': 1, # RotRight
+    '$': 2, # Append(x) x - char
+    '[': 1, # DeleteFirst
+    ']': 1, # DeleteLast
+    'D': 2, # DeleteAt(n) n - number 
+    'x': 3, # Extract(n, m) n - number, m - number 
+    'O': 3, # OmitRange(n, m) n - number, m - number 
+    'i': 3, # InsertChar(n, c) n - number, c - char
+    'o': 3, # Overstrike(n, c) n - number, c - char 
+    "'": 2, # Truncate(n) n - number 
+    's': 3, # ReplaceAll(cc, c) cc - char, c - char
+    '@': 2, # PurgeAll(cc) cc - char
+    'z': 2, # DupeFirstChar(n) n - number
+    'Z': 2, # DupeLastChar(n) n - number
+    'q': 1, # DupeAllChar
+    'X': 4, # ExtractInsert(n, m, o) n - number, m - number, o - number
+    '4': 1, # AppendMemory
+    '6': 1, # PrependMemory
+    'M': 1, # Memorize
+    # below are hashcat only functions
+    'L': 2, # BitshiftLeft n - number
+    'R': 2, # BitshiftRight n - number 
+    'k': 1, # SwapFirstTwo
+    'K': 1, # SwapLastTwo
+    '*': 3, # Swap(n, m) n - number, m - number
+    '+': 2, # Increment(n) n - number
+    '-': 2, # Decrement(n) n - number
+    '.': 2, # ReplaceWithNext(n)  n - number
+    ',': 2, # ReplaceWithPrior(n) n - number
+    'y': 2, # DupFirstString(n) n - number
+    'Y': 2, # DupLastString(n) n - number
     # new
-    '^': 2,
+    '^': 2, # n - probably number as a string is safe
 }
 """
 parse array of string to array of arrays of single rules
