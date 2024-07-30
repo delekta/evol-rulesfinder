@@ -2,6 +2,7 @@ import random
 
 # sign that encodes rule and the amount of the signs it requires
 RulesToSignsNumber = {
+    # ':': {len: 1, args: ['char', 'num'] }, example to make get_random_rule_sign to work for all rules
     ':': 1, # Noop - no operation
     'l': 1, # ToLower
     'u': 1, # ToUpper
