@@ -1,55 +1,56 @@
 import random
+import string
 
 # sign that encodes rule and the amount of the signs it requires
 RulesToSignsNumber = {
     # ':': {len: 3, args: ['char', 'num'] }, example to make get_random_rule_sign to work for all rules
     # len - length of the rule
     # args - an array that contains types of arguments for the rule
-    ':': {'len': 1, 'args': [] }, # Noop - no operation # type: ignore
-    'l': {'len': 1, 'args': [] }, # ToLower
-    'u': {'len': 1, 'args': [] }, # ToUpper
-    'c': {'len': 1, 'args': [] }, # Capitalize
-    'C': {'len': 1, 'args': [] }, # InvertCapitalize 
-    't': {'len': 1, 'args': [] }, # ToggleAll
-    'T': {'len': 2, 'args': ['num'] }, # ToggleCase n - number
-    'r': {'len': 1, 'args': [] }, # Reverse
-    'd': {'len': 1, 'args': [] }, # Duplicate
-    'p': {'len': 2, 'args': ['num'] }, # DupWordNTimes n - number
-    'f': {'len': 1, 'args': [] }, # Reflect
-    '{': {'len': 1, 'args': [] }, # RotLeft
-    '}': {'len': 1, 'args': [] }, # RotRight
-    '$': {'len': 2, 'args': ['char'] }, # Append(x) x - char
-    '[': {'len': 1, 'args': [] }, # DeleteFirst
-    ']': {'len': 1, 'args': [] }, # DeleteLast
-    'D': {'len': 2, 'args': ['num'] }, # DeleteAt(n) n - number 
-    'x': {'len': 3, 'args': ['num', 'num'] }, # Extract(n, m) n - number, m - number 
-    'O': {'len': 3, 'args': ['num', 'num'] }, # OmitRange(n, m) n - number, m - number 
-    'i': {'len': 3, 'args': ['num', 'char'] }, # InsertChar(n, c) n - number, c - char
-    'o': {'len': 3, 'args': ['num', 'char'] }, # Overstrike(n, c) n - number, c - char 
-    "'": {'len': 2, 'args': ['num'] }, # Truncate(n) n - number 
-    's': {'len': 3, 'args': ['char', 'char'] }, # ReplaceAll(cc, c) cc - char, c - char
-    '@': {'len': 2, 'args': ['char'] }, # PurgeAll(cc) cc - char
-    'z': {'len': 2, 'args': ['num'] }, # DupeFirstChar(n) n - number
-    'Z': {'len': 2, 'args': ['num'] }, # DupeLastChar(n) n - number
-    'q': {'len': 1, 'args': [] }, # DupeAllChar
-    'X': {'len': 4, 'args': ['num', 'num', 'num'] }, # ExtractInsert(n, m, o) n - number, m - number, o - number
-    '4': {'len': 1, 'args': [] }, # AppendMemory
-    '6': {'len': 1, 'args': [] }, # PrependMemory
-    'M': {'len': 1, 'args': [] }, # Memorize
+    ':': {'len': 1, 'mutation': True, 'args': [] }, # Noop - no operation # type: ignore
+    'l': {'len': 1, 'mutation': True, 'args': [] }, # ToLower
+    'u': {'len': 1, 'mutation': True, 'args': [] }, # ToUpper
+    'c': {'len': 1, 'mutation': True, 'args': [] }, # Capitalize
+    'C': {'len': 1, 'mutation': True, 'args': [] }, # InvertCapitalize 
+    't': {'len': 1, 'mutation': True, 'args': [] }, # ToggleAll
+    'T': {'len': 2, 'mutation': True, 'args': ['num'] }, # ToggleCase n - number
+    'r': {'len': 1, 'mutation': True, 'args': [] }, # Reverse
+    'd': {'len': 1, 'mutation': True, 'args': [] }, # Duplicate
+    'p': {'len': 2, 'mutation': True, 'args': ['num'] }, # DupWordNTimes n - number
+    'f': {'len': 1, 'mutation': True, 'args': [] }, # Reflect
+    '{': {'len': 1, 'mutation': True, 'args': [] }, # RotLeft
+    '}': {'len': 1, 'mutation': True, 'args': [] }, # RotRight
+    '$': {'len': 2, 'mutation': True, 'args': ['char'] }, # Append(x) x - char
+    '[': {'len': 1, 'mutation': True, 'args': [] }, # DeleteFirst
+    ']': {'len': 1, 'mutation': True, 'args': [] }, # DeleteLast
+    'D': {'len': 2, 'mutation': True, 'args': ['num'] }, # DeleteAt(n) n - number 
+    'x': {'len': 3, 'mutation': True, 'args': ['num', 'num'] }, # Extract(n, m) n - number, m - number 
+    'O': {'len': 3, 'mutation': True, 'args': ['num', 'num'] }, # OmitRange(n, m) n - number, m - number 
+    'i': {'len': 3, 'mutation': True, 'args': ['num', 'char'] }, # InsertChar(n, c) n - number, c - char
+    'o': {'len': 3, 'mutation': True, 'args': ['num', 'char'] }, # Overstrike(n, c) n - number, c - char 
+    "'": {'len': 2, 'mutation': True, 'args': ['num'] }, # Truncate(n) n - number 
+    's': {'len': 3, 'mutation': True, 'args': ['char', 'char'] }, # ReplaceAll(cc, c) cc - char, c - char
+    '@': {'len': 2, 'mutation': True, 'args': ['char'] }, # PurgeAll(cc) cc - char
+    'z': {'len': 2, 'mutation': True, 'args': ['num'] }, # DupeFirstChar(n) n - number
+    'Z': {'len': 2, 'mutation': True, 'args': ['num'] }, # DupeLastChar(n) n - number
+    'q': {'len': 1, 'mutation': True, 'args': [] }, # DupeAllChar
+    'X': {'len': 4, 'mutation': True, 'args': ['num', 'num', 'num'] }, # ExtractInsert(n, m, o) n - number, m - number, o - number
+    '4': {'len': 1, 'mutation': False, 'args': [] }, # AppendMemory
+    '6': {'len': 1, 'mutation': False, 'args': [] }, # PrependMemory
+    'M': {'len': 1, 'mutation': False, 'args': [] }, # Memorize
     # below are hashcat only functions
-    'L': {'len': 2, 'args': ['num'] }, # BitshiftLeft n - number
-    'R': {'len': 2, 'args': ['num'] }, # BitshiftRight n - number 
-    'k': {'len': 1, 'args': [] }, # SwapFirstTwo
-    'K': {'len': 1, 'args': [] }, # SwapLastTwo
-    '*': {'len': 3, 'args': ['num', 'num'] }, # Swap(n, m) n - number, m - number
-    '+': {'len': 2, 'args': ['num'] }, # Increment(n) n - number
-    '-': {'len': 2, 'args': ['num'] }, # Decrement(n) n - number
-    '.': {'len': 2, 'args': ['num'] }, # ReplaceWithNext(n)  n - number
-    ',': {'len': 2, 'args': ['num'] }, # ReplaceWithPrior(n) n - number
-    'y': {'len': 2, 'args': ['num'] }, # DupFirstString(n) n - number
-    'Y': {'len': 2, 'args': ['num'] }, # DupLastString(n) n - number
+    'L': {'len': 2, 'mutation': False, 'args': ['num'] }, # BitshiftLeft n - number
+    'R': {'len': 2, 'mutation': False, 'args': ['num'] }, # BitshiftRight n - number 
+    'k': {'len': 1, 'mutation': False, 'args': [] }, # SwapFirstTwo
+    'K': {'len': 1, 'mutation': False, 'args': [] }, # SwapLastTwo
+    '*': {'len': 3, 'mutation': False, 'args': ['num', 'num'] }, # Swap(n, m) n - number, m - number
+    '+': {'len': 2, 'mutation': False, 'args': ['num'] }, # Increment(n) n - number
+    '-': {'len': 2, 'mutation': False, 'args': ['num'] }, # Decrement(n) n - number
+    '.': {'len': 2, 'mutation': False, 'args': ['num'] }, # ReplaceWithNext(n)  n - number
+    ',': {'len': 2, 'mutation': False, 'args': ['num'] }, # ReplaceWithPrior(n) n - number
+    'y': {'len': 2, 'mutation': False, 'args': ['num'] }, # DupFirstString(n) n - number
+    'Y': {'len': 2, 'mutation': False, 'args': ['num'] }, # DupLastString(n) n - number
     # new
-    '^': {'len': 2, 'args': ['num'] }, # n - probably number as a string is safe
+    '^': {'len': 2, 'mutation': False, 'args': ['num'] }, # n - probably number as a string is safe
 }
 """
 parse array of string to array of arrays of single rules
@@ -103,11 +104,15 @@ def length_value(word, base, multiply):
 def get_rule_value(rule, popularity, base, multiply):
     return get_sum_of_rule(rule, popularity) + length_value(rule, base, multiply)
 
+def get_random_args(args_types):
+    choices = {'char': string.ascii_letters, 'num': '0123456789'}
+    res = ''.join(random.choice(choices[type]) for type in args_types)
+    return res
 
-
-# TODO Enable this function so it works for all signs
 def get_random_rule_sign():
     while True:
-        key, value = random.sample(list(RulesToSignsNumber.items()), 1)[0]
-        if value['len'] == 1:
-            return key
+        key, value = random.choice(list(RulesToSignsNumber.items()))
+        if not value['mutation']: 
+            continue
+        return key if value['len'] == 1 else key + get_random_args(value['args'])
+
