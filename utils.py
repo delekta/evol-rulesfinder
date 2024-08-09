@@ -14,7 +14,7 @@ RulesToSignsNumber = {
     't': {'len': 1, 'mutation': True, 'args': [] }, # ToggleAll
     'T': {'len': 2, 'mutation': True, 'args': ['num'] }, # ToggleCase n - number
     'r': {'len': 1, 'mutation': True, 'args': [] }, # Reverse
-    'd': {'len': 1, 'mutation': True, 'args': [] }, # Duplicate
+    'd': {'len': 1, 'mutation': False, 'args': [] }, # Duplicate, does not used for mutation because creates too long passwords so zxcvbn library raise an error
     'p': {'len': 2, 'mutation': True, 'args': ['num'] }, # DupWordNTimes n - number
     'f': {'len': 1, 'mutation': True, 'args': [] }, # Reflect
     '{': {'len': 1, 'mutation': True, 'args': [] }, # RotLeft
@@ -32,7 +32,7 @@ RulesToSignsNumber = {
     '@': {'len': 2, 'mutation': True, 'args': ['char'] }, # PurgeAll(cc) cc - char
     'z': {'len': 2, 'mutation': True, 'args': ['num'] }, # DupeFirstChar(n) n - number
     'Z': {'len': 2, 'mutation': True, 'args': ['num'] }, # DupeLastChar(n) n - number
-    'q': {'len': 1, 'mutation': True, 'args': [] }, # DupeAllChar
+    'q': {'len': 1, 'mutation': False, 'args': [] }, # DupeAllChar, does not used for mutation because creates too long passwords so zxcvbn library raise an error
     'X': {'len': 4, 'mutation': True, 'args': ['num', 'num', 'num'] }, # ExtractInsert(n, m, o) n - number, m - number, o - number
     '4': {'len': 1, 'mutation': False, 'args': [] }, # AppendMemory
     '6': {'len': 1, 'mutation': False, 'args': [] }, # PrependMemory
