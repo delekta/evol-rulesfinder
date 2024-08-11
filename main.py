@@ -1,3 +1,4 @@
+import random
 from utils import format_rules, get_rules_popularity
 from evol_algo import evolutionary_algorithm
 import subprocess
@@ -13,6 +14,7 @@ HASHCAT_RULE_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_rule
 HASHCAT_DEFAULT_RULE_NAME = 'rockyou-30000.rule'
 HASHCAT_DEFAULT_RULE_PATH = HASHCAT_RULE_DIR + HASHCAT_DEFAULT_RULE_NAME
 HASHCAT_DEFAULT_RULES_LOGS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_default_attack_logs.txt'
+RULES_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/rules/'
 
 
 def extract_rules_with_rulesfinder(wordlist, cleartext):
@@ -84,6 +86,26 @@ def save_evol_rules(evol_rules):
             rule = ''.join(item)
             f.write("%s\n" % rule)
 
+def prepare_random_lines(file, num_lines, save_file):
+    with open(file, 'r') as f:
+        words = [line.strip() for line in f]
+
+    num_lines = min(num_lines, len(words))
+    random_words = random.sample(words, num_lines)
+    with open(save_file, 'w') as f:
+        for word in random_words:
+            f.write(word + '\n')
+
+def create_passwords(wordlist, rules, tag):
+    random_wordlist_path = WORDLIST_DIR + 'random_wordlist.txt'
+    random_rules_path = RULES_DIR + 'random_rules.txt'
+    prepare_random_lines(wordlist, 10, random_wordlist_path)
+    prepare_random_lines(rules, 10000, random_rules_path)
+    command = f"hashcat -a 0 -m 0 {random_wordlist_path} -r {random_rules_path} --stdout > passwords_{tag}.txt"
+
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+    process.wait()
+
 def save_algo_result(wordlist, cleartext):
     effectiveness = get_effectiveness(HASHCAT_LOGS_PATH, 'Recovered')
     effectiveness_rulesfinder = get_effectiveness(HASHCAT_RULESFINDER_LOGS_PATH, 'Recovered')
@@ -93,31 +115,33 @@ def save_algo_result(wordlist, cleartext):
     to_save = '[different cleartext than from extracting]' + ' wordlist:' + wordlist + ', cleartext' + cleartext +  ', recovered:' + effectiveness +  ', recovered rulesfinder:' + effectiveness_rulesfinder + ', recovered "'+ HASHCAT_DEFAULT_RULE_NAME +'":' + effectiveness_hashcat + ', date:' + date_time
     append_new_line('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness.txt', to_save)
 
+# Passwords generator based on rulesfinder and evolutionary algorithm
 if __name__ == "__main__":
     wordlist = '10k-most-common-google-words.txt'
     cleartext = '7-more-passwords.txt'
 
-    rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
+    # rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
+    rulesfinder_result_path = '/Users/kamil.delekta/Erasmus/Magisterka/Project/results/10k-most-common-google-words.txt_7-more-passwords.txt'
     rules_formatted = format_rules(rulesfinder_result_path)
 
     # Evolutionary Algorithm Parameters
-    pop_size = 100
-    individual_length = 10
-    num_generations = 100
+    individual_length = 2
+    num_generations = 20
     mutation_rate = 0.01
-    tournament_size = 5
+    tournament_size = 2
+    pop_size = 100
+    popularity = get_rules_popularity(rules_formatted)
 
-    evol_rules = evolutionary_algorithm(rules_formatted, pop_size, individual_length, num_generations, mutation_rate, tournament_size)
-
+    evol_rules = evolutionary_algorithm(popularity,
+                                        rules_formatted, 
+                                        pop_size, 
+                                        individual_length, 
+                                        num_generations,
+                                        mutation_rate,
+                                        tournament_size)
     save_evol_rules(evol_rules)
+    create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=EVOL_RULES_PATH, tag='generator')
 
-    test_cleartext = '/Users/kamil.delekta/Erasmus/Magisterka/Project/cleartext_draft/bruteforce-database/1000000-password-seclists.txt'
-    
-    hashcat_attack(wordlist, test_cleartext)
-    hashcat_attack_rulesfinder(wordlist, test_cleartext, rulesfinder_result_path)
-    hashcat_attack_default_rules(wordlist, test_cleartext)
-
-    save_algo_result(wordlist, cleartext)
 
 
    
