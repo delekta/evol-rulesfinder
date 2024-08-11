@@ -1,8 +1,9 @@
 from utils import format_rules, get_rules_popularity
 from evol_algo import evolutionary_algorithm
 import subprocess
-import os
 from datetime import datetime
+import pandas as pd
+import re
 
 WORDLIST_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/wordlist/'
 CLEARTEXT_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/cleartext/'
@@ -13,6 +14,7 @@ HASHCAT_RULE_DIR = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_rule
 HASHCAT_DEFAULT_RULE_NAME = 'rockyou-30000.rule'
 HASHCAT_DEFAULT_RULE_PATH = HASHCAT_RULE_DIR + HASHCAT_DEFAULT_RULE_NAME
 HASHCAT_DEFAULT_RULES_LOGS_PATH = '/Users/kamil.delekta/Erasmus/Magisterka/Project/hashcat_default_attack_logs.txt'
+EFFECTIVENESS_RESULT = '/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness_test.txt'
 
 
 def extract_rules_with_rulesfinder(wordlist, cleartext):
@@ -84,23 +86,32 @@ def save_test(base, multiply):
     to_save = str(base) + ',' + str(multiply) + ',' + effectiveness
     append_new_line('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness_test.txt', to_save)
 
+def empty_file(file_name):
+    with open(file_name, 'w') as file:
+        pass
+
+# [WORKING]
 if __name__ == "__main__":
     wordlist = '10k-most-common-google-words.txt'
     cleartext = '7-more-passwords.txt'
 
-    rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
+    # rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
+    rulesfinder_result_path = '/Users/kamil.delekta/Erasmus/Magisterka/Project/results/10k-most-common-google-words.txt_7-more-passwords.txt'
     rules_formatted = format_rules(rulesfinder_result_path)
 
     # Evolutionary Algorithm Parameters
-    pop_size = 100
-    individual_length = 10
-    num_generations = 100
+    individual_length = 2
+    num_generations = 20
     mutation_rate = 0.01
-    tournament_size = 5
+    tournament_size = 2
+    pop_size = 100
+    popularity = get_rules_popularity(rules_formatted)
 
-    for base in range(400, 4000, 100):
-        for multiply in range(50, 500, 50):
-            evol_rules = evolutionary_algorithm(rules_formatted, 
+    empty_file(EFFECTIVENESS_RESULT)
+    for base in range(400, 800, 100):
+        for multiply in range(50, 200, 50):
+            evol_rules = evolutionary_algorithm(popularity,
+                                                rules_formatted, 
                                                 pop_size, 
                                                 individual_length, 
                                                 num_generations, 
@@ -111,11 +122,11 @@ if __name__ == "__main__":
             save_evol_rules(evol_rules)
             hashcat_attack(wordlist=wordlist, cleartext=cleartext)
             save_test(base, multiply)
-    import re
+            print(base, multiply)
 
     result = []
 
-    with open('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness_test.txt', 'r') as f:
+    with open(EFFECTIVENESS_RESULT, 'r') as f:
         for line in f:
             line = line.rstrip('\n')
             parts = line.split(',')[0:2]
@@ -124,18 +135,15 @@ if __name__ == "__main__":
                 parts.append(match.group(1))
             to_save = ','.join(parts)
             result += [to_save]
+
+    empty_file(EFFECTIVENESS_RESULT)
     
-    with open('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness_test.txt', 'a') as f:
+    with open(EFFECTIVENESS_RESULT, 'a') as f:
         for el in result:
             f.write(el)
             f.write('\n')
 
-            import pandas as pd
-
-    # Read the file into a pandas DataFrame
-    import pandas as pd
-
-    data = pd.read_csv('/Users/kamil.delekta/Erasmus/Magisterka/Project/effectiveness_test.txt', header=None, names=['X', 'Y', 'Z'])
+    data = pd.read_csv(EFFECTIVENESS_RESULT, header=None, names=['X', 'Y', 'Z'])
 
     # Calculate the correlation matrix
     correlation_matrix = data.corr()

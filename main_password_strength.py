@@ -107,13 +107,18 @@ def get_avg_strength(path):
             words += [int(zxcvbn(line.strip())['guesses_log10'])]
         # words = [int(zxcvbn(line.strip())['guesses_log10']) for line in file]
         return statistics.mean(words)
+    
+def empty_file(file_name):
+    with open(file_name, 'w') as file:
+        pass
 
+# [WORKING]
 if __name__ == "__main__":
     wordlist = '10k-most-common-google-words.txt'
     cleartext = '7-more-passwords.txt'
 
-    rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
-    # rulesfinder_result_path = '/Users/kamil.delekta/Erasmus/Magisterka/Project/results/10k-most-common-google-words.txt_7-more-passwords.txt'
+    # rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
+    rulesfinder_result_path = '/Users/kamil.delekta/Erasmus/Magisterka/Project/results/10k-most-common-google-words.txt_7-more-passwords.txt'
     rules_formatted = format_rules(rulesfinder_result_path)
 
     # Have chosen the best parameters num_generations = 20, tournament_size = 2 from previous tests
@@ -130,8 +135,7 @@ if __name__ == "__main__":
     # print('hashcat avg strength:', get_avg_strength('./passwords_hashcat.txt'))
 
     # Clearing file before parameter test
-    with open(PARAMETER_TEST_RESULTS, 'w') as file:
-        pass
+    empty_file(PARAMETER_TEST_RESULTS)
     # [NOTE] Update the parameter name if you update parameter of the loop
     parameter_name = 'Mutation rate'
     while mutation_rate < 0.50:
