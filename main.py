@@ -125,17 +125,17 @@ if __name__ == "__main__":
     rules_formatted = format_rules(rulesfinder_result_path)
 
     # Evolutionary Algorithm Parameters
-    individual_length = 2
+    pop_size = 100
+    min_individual_length = 2
     num_generations = 20
     mutation_rate = 0.01
     tournament_size = 2
-    pop_size = 100
     popularity = get_rules_popularity(rules_formatted)
 
     evol_rules = evolutionary_algorithm(popularity,
                                         rules_formatted, 
                                         pop_size, 
-                                        individual_length, 
+                                        min_individual_length, 
                                         num_generations,
                                         mutation_rate,
                                         tournament_size)
