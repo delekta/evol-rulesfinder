@@ -84,7 +84,7 @@ if __name__ == "__main__":
     cleartext = '7-more-passwords.txt'
 
     # rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
-    rulesfinder_result_path = '/Users/kamil.delekta/Erasmus/Magisterka/Project/results/10k-most-common-google-words.txt_7-more-passwords.txt'
+    rulesfinder_result_path = './results/10k-most-common-google-words.txt_7-more-passwords.txt'
     rules_formatted = format_rules(rulesfinder_result_path)
 
     # Evolutionary Algorithm Parameters
