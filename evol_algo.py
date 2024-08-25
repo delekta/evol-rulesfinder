@@ -44,6 +44,8 @@ def evolutionary_algorithm(popularity, population, population_size, min_individu
             if len(child) < min_individual_length: 
                 continue
             new_population.append(child.tolist())
+            # worth uncommenting when you passed higher min_individual_length
+            # print(len(new_population))
     
     # best_idx = np.argmax([fitness_function(individual) for individual in population])
     # return population[best_idx]

@@ -35,8 +35,9 @@ if __name__ == "__main__":
 
     # Evolutionary Algorithm Parameters
     pop_size = 100
-    min_individual_length = 2
-    num_generations = 20
+    # Note: it takes more time if you have min_individual_length > 2
+    min_individual_length = 2 # it is minimal length of rules, it differs from minimal length of password
+    num_generations = 1
     # to generate stronger passwords, higher mutation_rate is desirable
     mutation_rate = 0.20
     tournament_size = 2
