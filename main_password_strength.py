@@ -1,7 +1,7 @@
 import random
 import statistics
 from zxcvbn import zxcvbn
-from utils import format_rules, get_rules_popularity
+from utils import format_rules, get_unified_rules_popularity
 from evol_algo import evolutionary_algorithm
 import subprocess
 import matplotlib.pyplot as plt
@@ -56,7 +56,9 @@ if __name__ == "__main__":
     num_generations = 20
     mutation_rate = 0.01
     tournament_size = 2
-    popularity = get_rules_popularity(rules_formatted)
+    # when it comes to generating strong passwords, we aim not merely to use popular rules, but to apply all available options
+    # thats why we use get_unified_rules_popularity instead of get_rules_popularity
+    popularity = get_unified_rules_popularity()
     pop_size = 10
 
     # create_passwords(wordlist=WORDLIST_DIR + wordlist, rules=rulesfinder_result_path, tag='rulesfinder')

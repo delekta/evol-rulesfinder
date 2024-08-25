@@ -89,6 +89,16 @@ def get_rules_popularity(rules):
     return result
 
 # requires formatted rules
+def get_unified_rules_popularity():
+    result = {}
+
+    # prepare dictionary
+    for x in RulesToSignsNumber.keys():
+        result[x] = 1
+
+    return result
+
+# requires formatted rules
 def get_sum_of_rule(rule, popularity):
     index = 0
     result = 0
