@@ -65,6 +65,10 @@ def format_rules(rulesfinder_result_path):
         array_of_rules = []
         # print(rule)
         while index < len(rule):
+            if rule[index] == ' ':
+                # required because sometimes hashcat rules have additional spaces between specific transitions. Check out 'hashcat_rules/top10_2023.rule'
+                index += 1
+                continue
             sign = rule[index:index+RulesToSignsNumber[rule[index]]['len']]
             index += RulesToSignsNumber[rule[index]]['len']
             array_of_rules += [sign]

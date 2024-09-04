@@ -26,10 +26,11 @@ def create_passwords(wordlist, rules, tag):
 
 # Passwords generator based on rulesfinder and evolutionary algorithm
 if __name__ == "__main__":
-    wordlist = '10k-most-common-google-words.txt'
+    wordlist = 'test_wordlist.txt'
     cleartext = '7-more-passwords.txt'
 
     # rulesfinder_result_path = extract_rules_with_rulesfinder(wordlist=wordlist, cleartext=cleartext)
+    # rulesfinder_result_path = 'hashcat_rules/rockyou-30000.rule'
     rulesfinder_result_path = './results/10k-most-common-google-words.txt_7-more-passwords.txt'
     rules_formatted = format_rules(rulesfinder_result_path)
 
